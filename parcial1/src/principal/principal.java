@@ -1,4 +1,5 @@
 package principal;
+
 import java.util.Scanner;
 
 import clases.Garage;
@@ -13,14 +14,22 @@ import excepciones.PatenteDuplicadaException;
 import excepciones.VehiculoNoEncontradoException;
 
 public class principal {
-	public static void main(String[] args) {
+
+    public static void main(String[] args) {
 
         Scanner scanner = new Scanner(System.in);
 
         System.out.println("===== SISTEMA DE GARAGE =====");
 
+        // VALIDAR CAPACIDAD DEL GARAGE
         System.out.print("Ingrese la capacidad del garage: ");
         int capacidad = scanner.nextInt();
+
+        while (capacidad <= 0) {
+            System.out.println("La capacidad del garage debe ser mayor a 0.");
+            System.out.print("Ingrese nuevamente la capacidad: ");
+            capacidad = scanner.nextInt();
+        }
 
         Garage garage = new Garage(capacidad);
 
@@ -30,145 +39,354 @@ public class principal {
 
             System.out.println();
             System.out.println("===== SISTEMA DE GARAGE =====");
+            System.out.println();
             System.out.println("1. Registrar ingreso");
+            System.out.println();
             System.out.println("2. Registrar salida");
+            System.out.println();
             System.out.println("3. Listar vehículos");
+            System.out.println();
             System.out.println("4. Estado del garage");
+            System.out.println();
             System.out.println("5. Reportes");
+            System.out.println();
             System.out.println("6. Salir");
-            System.out.print("Seleccione una opción: ");
+            System.out.println();
 
+            System.out.print("Seleccione una opción: ");
             opcion = scanner.nextInt();
 
             switch (opcion) {
 
-            case 1:
+                // ==========================================
+                // REGISTRAR INGRESO
+                // ==========================================
+                case 1:
 
-                System.out.println("===== REGISTRAR INGRESO =====");
+                    System.out.println();
+                    System.out.println("===== REGISTRAR INGRESO =====");
+                    System.out.println();
+                    System.out.println("1. Moto");
+                    System.out.println();
+                    System.out.println("2. Auto");
+                    System.out.println();
+                    System.out.println("3. Camion");
+                    System.out.println();
 
-                System.out.println("1. Moto");
-                System.out.println("2. Auto");
-                System.out.println("3. Camion");
-                System.out.print("Seleccione el tipo de vehículo: ");
+                    System.out.print("Seleccione el tipo de vehículo: ");
+                    int tipo = scanner.nextInt();
 
-                int tipo = scanner.nextInt();
-                scanner.nextLine();
+                    scanner.nextLine();
 
-                System.out.print("Ingrese la patente: ");
-                String patente = scanner.nextLine();
+                    Vehiculo vehiculo = null;
 
-                System.out.print("Ingrese la marca: ");
-                String marca = scanner.nextLine();
+                    switch (tipo) {
 
-                System.out.print("Ingrese el modelo: ");
-                String modelo = scanner.nextLine();
+                        case 1:
+                            vehiculo = crearMoto(scanner);
+                            break;
 
-                System.out.print("Ingrese las horas estimadas: ");
-                int horas = scanner.nextInt();
+                        case 2:
+                            vehiculo = crearAuto(scanner);
+                            break;
 
-                Vehiculo vehiculo = null;
+                        case 3:
+                            vehiculo = crearCamion(scanner);
+                            break;
 
-                switch (tipo) {
+                        default:
+                            System.out.println("Tipo de vehículo inválido.");
+                            break;
+                    }
 
-                    case 1:
-                        vehiculo = new Moto(patente, marca, modelo, horas);
-                        break;
+                    if (vehiculo != null) {
 
-                    case 2:
-                        vehiculo = new Auto(patente, marca, modelo, horas);
-                        break;
+                        try {
 
-                    case 3:
-                        vehiculo = new Camion(patente, marca, modelo, horas);
-                        break;
+                            garage.ingresarVehiculo(vehiculo);
 
-                    default:
-                        System.out.println("Tipo de vehículo inválido.");
-                        break;
-                }
+                            System.out.println();
+                            System.out.println("Vehículo ingresado correctamente.");
+                            System.out.println("Espacios ocupados: " 
+                                    + vehiculo.calcularEspacios());
+                            System.out.println("Costo estimado: $" 
+                                    + vehiculo.calcularCosto());
 
-                if (vehiculo != null) {
+                        } catch (GarageLlenoException e) {
+
+                            System.out.println(e.getMessage());
+
+                        } catch (PatenteDuplicadaException e) {
+
+                            System.out.println(e.getMessage());
+
+                        } catch (HorasInvalidasException e) {
+
+                            System.out.println(e.getMessage());
+                        }
+                    }
+
+                    break;
+
+                // ==========================================
+                // REGISTRAR SALIDA
+                // ==========================================
+                case 2:
+
+                    System.out.println();
+                    System.out.println("===== REGISTRAR SALIDA =====");
+
+                    scanner.nextLine();
+
+                    System.out.print("Ingrese la patente del vehículo: ");
+                    String patenteSalida = scanner.nextLine();
+
+                    while (patenteSalida.trim().isEmpty()) {
+
+                        System.out.println("La patente no puede estar vacía.");
+                        System.out.print("Ingrese la patente nuevamente: ");
+
+                        patenteSalida = scanner.nextLine();
+                    }
 
                     try {
 
-                        garage.ingresarVehiculo(vehiculo);
+                        Vehiculo vehiculoSalida =
+                                garage.sacarVehiculo(patenteSalida);
 
-                        System.out.println("Vehículo ingresado correctamente.");
-                        System.out.println("Espacios ocupados: " + vehiculo.calcularEspacios());
-                        System.out.println("Costo estimado: $" + vehiculo.calcularCosto());
+                        System.out.println();
+                        System.out.println("===== RESUMEN DE SALIDA =====");
+                        System.out.println();
 
-                    } catch (GarageLlenoException e) {
+                        System.out.println("Patente: "
+                                + vehiculoSalida.getPatente());
 
-                        System.out.println(e.getMessage());
+                        System.out.println("Marca: "
+                                + vehiculoSalida.getMarca());
 
-                    } catch (PatenteDuplicadaException e) {
+                        System.out.println("Modelo: "
+                                + vehiculoSalida.getModelo());
 
-                        System.out.println(e.getMessage());
+                        System.out.println("Horas estimadas: "
+                                + vehiculoSalida.getHorasEstimadas());
 
-                    } catch (HorasInvalidasException e) {
+                        System.out.println("Espacios liberados: "
+                                + vehiculoSalida.calcularEspacios());
+
+                        System.out.println("Costo total estimado: $"
+                                + vehiculoSalida.calcularCosto());
+
+                        System.out.println();
+                        System.out.println("Vehículo retirado correctamente.");
+
+                    } catch (VehiculoNoEncontradoException e) {
 
                         System.out.println(e.getMessage());
                     }
-                }
 
-                break;
+                    break;
 
-            case 2:
-
-                System.out.println("===== REGISTRAR SALIDA =====");
-
-                scanner.nextLine();
-
-                System.out.print("Ingrese la patente del vehículo: ");
-                String patenteSalida = scanner.nextLine();
-
-                try {
-
-                    Vehiculo vehiculoSalida = garage.sacarVehiculo(patenteSalida);
-
-                    System.out.println();
-                    System.out.println("===== RESUMEN DE SALIDA =====");
-                    System.out.println("Patente: " + vehiculoSalida.getPatente());
-                    System.out.println("Marca: " + vehiculoSalida.getMarca());
-                    System.out.println("Modelo: " + vehiculoSalida.getModelo());
-                    System.out.println("Horas estimadas: " + vehiculoSalida.getHorasEstimadas());
-                    System.out.println("Espacios liberados: " + vehiculoSalida.calcularEspacios());
-                    System.out.println("Costo total estimado: $" + vehiculoSalida.calcularCosto());
-                    System.out.println("Vehículo retirado correctamente.");
-
-                } catch (VehiculoNoEncontradoException e) {
-
-                    System.out.println(e.getMessage());
-                }
-
-                break;
-
+                // ==========================================
+                // LISTAR VEHICULOS
+                // ==========================================
                 case 3:
+
                     garage.listarVehiculos();
+
                     break;
 
+                // ==========================================
+                // ESTADO DEL GARAGE
+                // ==========================================
                 case 4:
+
                     garage.mostrarEstado();
+
                     break;
 
+                // ==========================================
+                // REPORTES
+                // ==========================================
                 case 5:
 
                     garage.generarReportes();
 
                     break;
 
+                // ==========================================
+                // SALIR
+                // ==========================================
                 case 6:
+
+                    System.out.println();
                     System.out.println("Programa finalizado.");
+
                     break;
 
+                // ==========================================
+                // OPCION INVALIDA
+                // ==========================================
                 default:
+
                     System.out.println("Opción inválida.");
+
                     break;
             }
         }
 
         scanner.close();
     }
+
+
+    // ======================================================
+    // CREAR MOTO
+    // ======================================================
+
+    public static Moto crearMoto(Scanner scanner) {
+
+        System.out.println();
+
+        System.out.print("Ingrese la patente: ");
+        String patente = scanner.nextLine();
+
+        while (patente.trim().isEmpty()) {
+
+            System.out.println("La patente no puede estar vacía.");
+            System.out.print("Ingrese la patente nuevamente: ");
+
+            patente = scanner.nextLine();
+        }
+
+
+        System.out.print("Ingrese la marca: ");
+        String marca = scanner.nextLine();
+
+        while (marca.trim().isEmpty()) {
+
+            System.out.println("La marca no puede estar vacía.");
+            System.out.print("Ingrese la marca nuevamente: ");
+
+            marca = scanner.nextLine();
+        }
+
+
+        System.out.print("Ingrese el modelo: ");
+        String modelo = scanner.nextLine();
+
+        while (modelo.trim().isEmpty()) {
+
+            System.out.println("El modelo no puede estar vacío.");
+            System.out.print("Ingrese el modelo nuevamente: ");
+
+            modelo = scanner.nextLine();
+        }
+
+
+        System.out.print("Ingrese las horas estimadas: ");
+        int horas = scanner.nextInt();
+
+        return new Moto(patente, marca, modelo, horas);
+    }
+
+
+    // ======================================================
+    // CREAR AUTO
+    // ======================================================
+
+    public static Auto crearAuto(Scanner scanner) {
+
+        System.out.println();
+
+        System.out.print("Ingrese la patente: ");
+        String patente = scanner.nextLine();
+
+        while (patente.trim().isEmpty()) {
+
+            System.out.println("La patente no puede estar vacía.");
+            System.out.print("Ingrese la patente nuevamente: ");
+
+            patente = scanner.nextLine();
+        }
+
+
+        System.out.print("Ingrese la marca: ");
+        String marca = scanner.nextLine();
+
+        while (marca.trim().isEmpty()) {
+
+            System.out.println("La marca no puede estar vacía.");
+            System.out.print("Ingrese la marca nuevamente: ");
+
+            marca = scanner.nextLine();
+        }
+
+
+        System.out.print("Ingrese el modelo: ");
+        String modelo = scanner.nextLine();
+
+        while (modelo.trim().isEmpty()) {
+
+            System.out.println("El modelo no puede estar vacío.");
+            System.out.print("Ingrese el modelo nuevamente: ");
+
+            modelo = scanner.nextLine();
+        }
+
+
+        System.out.print("Ingrese las horas estimadas: ");
+        int horas = scanner.nextInt();
+
+        return new Auto(patente, marca, modelo, horas);
+    }
+
+
+    // ======================================================
+    // CREAR CAMION
+    // ======================================================
+
+    public static Camion crearCamion(Scanner scanner) {
+
+        System.out.println();
+
+        System.out.print("Ingrese la patente: ");
+        String patente = scanner.nextLine();
+
+        while (patente.trim().isEmpty()) {
+
+            System.out.println("La patente no puede estar vacía.");
+            System.out.print("Ingrese la patente nuevamente: ");
+
+            patente = scanner.nextLine();
+        }
+
+
+        System.out.print("Ingrese la marca: ");
+        String marca = scanner.nextLine();
+
+        while (marca.trim().isEmpty()) {
+
+            System.out.println("La marca no puede estar vacía.");
+            System.out.print("Ingrese la marca nuevamente: ");
+
+            marca = scanner.nextLine();
+        }
+
+
+        System.out.print("Ingrese el modelo: ");
+        String modelo = scanner.nextLine();
+
+        while (modelo.trim().isEmpty()) {
+
+            System.out.println("El modelo no puede estar vacío.");
+            System.out.print("Ingrese el modelo nuevamente: ");
+
+            modelo = scanner.nextLine();
+        }
+
+
+        System.out.print("Ingrese las horas estimadas: ");
+        int horas = scanner.nextInt();
+
+        return new Camion(patente, marca, modelo, horas);
+    }
 }
-
-
