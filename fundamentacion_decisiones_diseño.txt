@@ -1,0 +1,73 @@
+FUNDAMENTACIÓN DE DECISIONES DE DISEÑO: 
+Parcial 1 - Programación Avanzada MERINO-ROGES
+
+Para desarrollar el sistema buscamos aplicar los conceptos principales vistos en clase de forma clara.
+
+1) Vehiculo como clase base
+
+Se creó una clase abstracta Vehiculo para reunir los datos comunes a todos los vehículos: patente, marca, modelo y horas estimadas.
+
+A partir de esa clase creamos Moto, Auto y Camion. Cada una reutiliza la estructura de Vehiculo, pero define su propio costo por hora y la cantidad de espacios que ocupa.
+
+2) Herencia y polimorfismo
+
+La herencia nos permitió evitar repetir atributos y métodos en cada tipo de vehículo.
+
+También usamos polimorfismo en métodos como calcularCosto() y calcularEspacios(). De esta manera, el Garage puede trabajar con objetos de tipo Vehiculo sin tener que preguntar todo el tiempo si se trata de una moto, un auto o un camión.
+
+3) Interfaz Calculable
+
+Se creó la interfaz Calculable con el método calcularCosto().
+
+La idea fue representar de forma clara que todos los vehículos deben poder calcular su costo, aunque cada tipo lo haga de una manera distinta.
+
+4) Clase Garage y colecciones:
+
+La clase Garage se encarga de administrar los vehículos estacionados.
+
+Para guardarlos se utilizo ArrayList<Vehiculo>, ya que la cantidad de vehículos puede cambiar durante la ejecución. Esto permite agregar, eliminar, recorrer y buscar vehículos fácilmente.
+
+5) Validaciones
+
+Se agregaron validaciones para evitar situaciones como por ejemplo:
+
+- patentes repetidas
+- horas menores o iguales a cero
+- ingreso sin espacio disponible
+- salida de una patente inexistente
+- campos vacíos
+- opciones inválidas
+- datos numéricos incorrectos
+
+También se valida que la capacidad inicial del garage sea mayor a cero.
+
+6) Excepciones
+
+Para manejar errores sin cerrar el programa se utilizaron bloques try-catch y excepciones personalizadas.
+
+Se crearon:
+
+- GarageLlenoException
+- PatenteDuplicadaException
+- VehiculoNoEncontradoException
+- HorasInvalidasException
+
+Además, se usan excepciones estándar como NumberFormatException cuando el usuario ingresa texto donde debería ingresar un número.
+
+7) Menú y reportes
+
+El sistema funciona mediante un menú por consola que permite registrar ingresos y salidas, listar vehículos, consultar el estado del garage y generar reportes.
+
+Los reportes muestran la cantidad de vehículos, cantidad por tipo, espacios ocupados y disponibles, y la recaudación total estimada.
+
+8) Organización del proyecto
+
+El proyecto se dividió en paquetes para que el código quede más ordenado:
+
+- clases
+- interfaces
+- excepciones
+- principal
+
+La intención fue separar responsabilidades y facilitar la lectura y el mantenimiento del código.
+
