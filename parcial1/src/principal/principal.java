@@ -193,6 +193,12 @@ public class principal {
         System.out.println();
         System.out.println("===== REGISTRAR SALIDA =====");
 
+        garage.listarPatentes();
+
+        if (garage.getVehiculos().isEmpty()) {
+            return;
+        }
+
         String patenteSalida = leerTexto(
                 scanner,
                 "Ingrese la patente del vehículo: "

@@ -124,6 +124,19 @@ public class Garage {
         );
     }
 
+    public void listarPatentes() {
+
+        if (vehiculos.isEmpty()) {
+            System.out.println("No hay vehículos estacionados.");
+            return;
+        }
+
+        System.out.println("Vehículos estacionados:");
+
+        for (Vehiculo vehiculo : vehiculos) {
+            System.out.println("- " + vehiculo.getPatente());
+        }
+    }
 
     public Vehiculo sacarVehiculo(String patente)
             throws VehiculoNoEncontradoException {
