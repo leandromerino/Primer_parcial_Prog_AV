@@ -1,7 +1,8 @@
 package clases;
 
 public class Auto extends Vehiculo {
-	public Auto() {
+
+    public Auto() {
     }
 
     public Auto(String patente, String marca, String modelo, int horasEstimadas) {

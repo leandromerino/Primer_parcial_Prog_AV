@@ -1,56 +1,67 @@
 package clases;
+
 import interfaces.Calculable;
-	
-	public abstract class Vehiculo implements Calculable {
 
-	    protected String patente;
-	    protected String marca;
-	    protected String modelo;
-	    protected int horasEstimadas;
+public abstract class Vehiculo implements Calculable {
 
-	    public Vehiculo() {
-	    }
-	    
-	    public Vehiculo(String patente, String marca, String modelo, int horasEstimadas) {
-	        this.patente = patente;
-	        this.marca = marca;
-	        this.modelo = modelo;
-	        this.horasEstimadas = horasEstimadas;
-	    }
+    protected String patente;
+    protected String marca;
+    protected String modelo;
+    protected int horasEstimadas;
 
-	    public String getPatente() {
-	        return patente;
-	    }
+    public Vehiculo() {
+    }
 
-	    public void setPatente(String patente) {
-	        this.patente = patente;
-	    }
+    public Vehiculo(String patente, String marca, String modelo, int horasEstimadas) {
+        this.patente = patente;
+        this.marca = marca;
+        this.modelo = modelo;
+        this.horasEstimadas = horasEstimadas;
+    }
 
-	    public String getMarca() {
-	        return marca;
-	    }
+    public String getPatente() {
+        return patente;
+    }
 
-	    public void setMarca(String marca) {
-	        this.marca = marca;
-	    }
+    public void setPatente(String patente) {
+        this.patente = patente;
+    }
 
-	    public String getModelo() {
-	        return modelo;
-	    }
+    public String getMarca() {
+        return marca;
+    }
 
-	    public void setModelo(String modelo) {
-	        this.modelo = modelo;
-	    }
+    public void setMarca(String marca) {
+        this.marca = marca;
+    }
 
-	    public int getHorasEstimadas() {
-	        return horasEstimadas;
-	    }
+    public String getModelo() {
+        return modelo;
+    }
 
-	    public void setHorasEstimadas(int horasEstimadas) {
-	        this.horasEstimadas = horasEstimadas;
-	    }
+    public void setModelo(String modelo) {
+        this.modelo = modelo;
+    }
 
-	    public abstract double calcularCosto();
+    public int getHorasEstimadas() {
+        return horasEstimadas;
+    }
 
-	    public abstract int calcularEspacios();
+    public void setHorasEstimadas(int horasEstimadas) {
+        this.horasEstimadas = horasEstimadas;
+    }
+
+    @Override
+    public abstract double calcularCosto();
+
+    public abstract int calcularEspacios();
+
+    public void mostrarDatos() {
+        System.out.println("Patente: " + patente);
+        System.out.println("Marca: " + marca);
+        System.out.println("Modelo: " + modelo);
+        System.out.println("Horas estimadas: " + horasEstimadas);
+        System.out.println("Espacios ocupados: " + calcularEspacios());
+        System.out.println("Costo estimado: $" + calcularCosto());
+    }
 }

@@ -1,7 +1,8 @@
 package excepciones;
 
-public class PatenteDuplicadaException extends Exception{
-	public PatenteDuplicadaException(String mensaje) {
+public class PatenteDuplicadaException extends Exception {
+
+    public PatenteDuplicadaException(String mensaje) {
         super(mensaje);
     }
 }

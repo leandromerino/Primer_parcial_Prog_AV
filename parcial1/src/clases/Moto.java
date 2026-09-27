@@ -1,7 +1,8 @@
 package clases;
 
-public class Moto extends Vehiculo{
-	public Moto() {
+public class Moto extends Vehiculo {
+
+    public Moto() {
     }
 
     public Moto(String patente, String marca, String modelo, int horasEstimadas) {
@@ -18,4 +19,3 @@ public class Moto extends Vehiculo{
         return 1;
     }
 }
-

@@ -1,7 +1,8 @@
 package clases;
 
-public class Camion extends Vehiculo{
-	public Camion() {
+public class Camion extends Vehiculo {
+
+    public Camion() {
     }
 
     public Camion(String patente, String marca, String modelo, int horasEstimadas) {
